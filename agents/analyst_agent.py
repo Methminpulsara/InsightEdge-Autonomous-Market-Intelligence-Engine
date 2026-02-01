@@ -2,7 +2,9 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from tools.search_tool import get_search_tool
 from core.state import AgentState
+from dotenv import load_dotenv
 
+load_dotenv()
 
 def analyst_agent(state: AgentState):
     # meken thma competitor kud and weakness blnne meken

@@ -2,6 +2,9 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from tools.search_tool import get_search_tool
 from core.state import AgentState
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def research_agent(state: AgentState):
