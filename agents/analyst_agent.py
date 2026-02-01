@@ -9,7 +9,7 @@ load_dotenv()
 def analyst_agent(state: AgentState):
     # meken thma competitor kud and weakness blnne meken
 
-    llm = ChatOpenAI(model="gpt-5.2-2025-12-11")
+    llm = ChatOpenAI(model="gpt-4o-mini")
 
     search = get_search_tool()
 

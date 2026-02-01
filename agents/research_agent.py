@@ -8,8 +8,7 @@ load_dotenv()
 
 
 def research_agent(state: AgentState):
-    # llm = ChatOpenAI(model="gpt-5.2-2025-12-11"
-    llm = ChatOpenAI(model="gpt-5.2-2025-12-11")
+    llm = ChatOpenAI(model="gpt-4o-mini")
 
     search = get_search_tool()
 
