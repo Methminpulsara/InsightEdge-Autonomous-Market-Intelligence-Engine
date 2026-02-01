@@ -48,6 +48,9 @@ def create_ui(generate_fn):
                         lines=10, container=False
                     )
 
+                    # මෙතන තමයි Input Box එකට පහළින් Model එක පෙන්වන්නේ
+                    gr.HTML("<p style='font-size: 0.85em; margin-top: 10px; opacity: 0.8;'>Intelligence Layer: <b>GPT-5.2 (2025-12-11)</b></p>")
+
                     # Workflow Visualization
                     gr.HTML("""
                     <div class="workflow-container">
@@ -77,14 +80,13 @@ def create_ui(generate_fn):
                         elem_classes="report-area",
                         line_breaks=True
                     )
+                    download_btn = gr.DownloadButton("DOWNLOAD AS PDF", visible=False)
 
-        # Footer with GPT-5.2 mention
+        # Bottom Footer
         gr.HTML(
             "<div style='text-align: center; margin-top: 30px; opacity: 0.6; font-size: 0.8em; line-height: 1.6;'>"
-            "Powered by LangGraph Agentic Framework<br>"
-            "Intelligence Layer: <b>GPT-5.2 (2025-12-11)</b>"
+            "Powered by LangGraph Agentic Framework"
             "</div>")
 
-        submit_btn.click(fn=generate_fn, inputs=input_txt, outputs=output_md)
-
+        submit_btn.click(fn=generate_fn, inputs=input_txt, outputs=[output_md, download_btn])
     return demo, custom_css

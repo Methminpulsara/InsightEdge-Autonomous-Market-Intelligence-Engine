@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 from core.graph import create_graph
 from ui.ui import create_ui
 from openai import OpenAI
+from fpdf import FPDF
+
+
 
 load_dotenv()
 
@@ -25,39 +28,52 @@ def is_safe(text):
         return True  # Fallback if API fails
 
 
-def execution_logic(business_idea):
-    # 1. Validation for empty or short input
-    if not business_idea.strip() or len(business_idea) < 10:
-        yield "The concept is too short for a meaningful analysis. Please provide more detail."
-        return
+def create_pdf(text):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("helvetica", size=12)
 
-    # 2. Safety Check
-    if not is_safe(business_idea):
-        yield "Policy Violation: Your input contains prohibited content. Please provide a valid business concept."
+    # PDF එක support නොකරන characters (Smart quotes, dashes) සාමාන්‍ය ඒවට replace කරනවා
+    clean_text = text.replace("**", "")  # Markdown bold අයින් කරනවා
+    clean_text = clean_text.replace("’", "'").replace("‘", "'")  # Smart quotes fix
+    clean_text = clean_text.replace("“", '"').replace("”", '"')  # Double quotes fix
+    clean_text = clean_text.replace("–", "-").replace("—", "-")  # Long dashes fix
+
+    clean_text = clean_text.encode('latin-1', 'replace').decode('latin-1')
+
+    pdf.multi_cell(0, 10, txt=clean_text)
+
+    file_path = "Business_Strategic_Report.pdf"
+    pdf.output(file_path)
+    return file_path
+
+
+def execution_logic(business_idea):
+    if not business_idea.strip() or len(business_idea) < 10:
+        yield "The concept is too short.", gr.update(visible=False)
         return
 
     try:
-        # Initial status updates to the user
-        yield "Initializing strategic analysis engine..."
-        time.sleep(1)
-        yield "Engaging multi-agent pipeline: Researching market data..."
+        yield "Engaging multi-agent pipeline: Researching market data...", gr.update(visible=False)
 
-        # Invoke the LangGraph to get the full report
         result = graph_app.invoke({"business_idea": business_idea})
         full_report = result.get("final_output", "Error: Failed to synthesize report.")
 
-        # 3. Simulated Streaming Effect
-        # මුළු report එකම වචනයෙන් වචනය UI එකට stream කරනවා
         displayed_text = ""
-        # පේළි වලට කඩලා stream කරනවා
+        # 1. Streaming Effect
         for line in full_report.split("\n"):
             displayed_text += line + "\n"
-            yield displayed_text
-            time.sleep(0.05)  # පේළියක් ලියවෙන්න යන වෙලාව  # Adjusted speed for a smooth professional look
+            yield displayed_text, gr.update(visible=False)
+            time.sleep(0.05)
+
+        # 2. Create PDF after streaming ends
+        pdf_path = create_pdf(full_report)
+
+        # 3. Show Download Button
+        yield displayed_text, gr.update(value=pdf_path, visible=True)
 
     except Exception as e:
-        yield f"System Error: {str(e)}"
-
+        yield f"System Error: {str(e)}", gr.update(visible=False)
 
 # Get UI and CSS from ui.py
 app_interface, style_css = create_ui(execution_logic)

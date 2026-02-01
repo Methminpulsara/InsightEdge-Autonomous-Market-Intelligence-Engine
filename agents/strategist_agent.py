@@ -10,7 +10,7 @@ def strategist_agent(state:AgentState):
 
     # final agent for summery
 
-    llm = ChatOpenAI(model="gpt-5-mini-2025-08-07")
+    llm = ChatOpenAI(model="gpt-5.2-2025-12-11")
 
     prompt_template = ChatPromptTemplate.from_messages([
         (
