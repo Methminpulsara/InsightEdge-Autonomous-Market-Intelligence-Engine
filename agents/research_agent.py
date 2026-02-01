@@ -21,6 +21,7 @@ def research_agent(state: AgentState):
 
     chain = prompt_template | llm
 
+    # fill the placeholders in the system promt {idea} and {results}
     response = chain.invoke({"idea": state['business_idea'],
                              "result": search_result
                              })

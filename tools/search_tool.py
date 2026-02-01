@@ -9,3 +9,4 @@ def get_search_tool():
     # for search in Google / Internet
     api_wrapper = TavilySearchAPIWrapper()
     return TavilySearchResults(api_wrapper=api_wrapper, max_results=5)
+
