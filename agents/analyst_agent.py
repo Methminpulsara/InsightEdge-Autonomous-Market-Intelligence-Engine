@@ -9,7 +9,7 @@ load_dotenv()
 def analyst_agent(state: AgentState):
     # meken thma competitor kud and weakness blnne meken
 
-    llm = ChatOpenAI(model="gtp-4o-mini")
+    llm = ChatOpenAI(model="gpt-5-mini-2025-08-07")
     search = get_search_tool()
 
     query = f"Top competitors and alternative services for: {state['business_idea']}"
@@ -17,7 +17,7 @@ def analyst_agent(state: AgentState):
 
     promt_template = ChatPromptTemplate.from_messages([
         (
-            "System",
+            "system",
             "You are a Competitor Business Analyst. Your goal is to identify direct competitors, "
             "analyze their SWOT (Strengths, Weaknesses, Opportunities, Threats), and find market gaps."
         ),

@@ -8,11 +8,11 @@ load_dotenv()
 
 
 def research_agent(state: AgentState):
-    llm = ChatOpenAI(model="gpt-4o-mini")
+    llm = ChatOpenAI(model="gpt-5-mini-2025-08-07")
     search = get_search_tool()
 
     # search
-    query = f"Current market trends for:  {state:['business_idea']}"
+    query = f"Current market trends for:  {state['business_idea']}"
     search_result = search.invoke(query)
 
     # promt template
@@ -26,7 +26,7 @@ def research_agent(state: AgentState):
 
     # fill the placeholders in the system promt {idea} and {results}
     response = chain.invoke({"idea": state['business_idea'],
-                             "result": search_result
+                             "results": search_result
                              })
 
     return {"market_research_data": response.content}

@@ -1,7 +1,10 @@
 from langgraph.graph import StateGraph
 from langgraph.constants import END
-from agents import research_agent, analyst_agent, strategist_agent
-from state import AgentState
+from agents.analyst_agent import analyst_agent
+from agents.research_agent import research_agent
+from agents.strategist_agent import strategist_agent
+
+from core.state import AgentState
 
 
 def create_graph():
