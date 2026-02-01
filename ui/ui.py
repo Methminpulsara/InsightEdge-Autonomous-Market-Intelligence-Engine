@@ -32,13 +32,11 @@ def create_ui(generate_fn):
     """
 
     with gr.Blocks(title="InsightEdge AI") as demo:
-        # Header
         with gr.Column(elem_classes="header-box"):
             gr.HTML("<h1 style='color: white; font-size: 2.5em; font-weight: 800; margin: 0;'>INSIGHTEDGE</h1>")
             gr.HTML("<p style='color: rgba(255,255,255,0.9);'>Strategic Multi-Agent Intelligence Engine</p>")
 
         with gr.Row(equal_height=True):
-            # Left: Input & Workflow
             with gr.Column(scale=1):
                 with gr.Column(elem_classes="panel-bg"):
                     gr.Markdown("### **1. Concept Input**")
@@ -48,10 +46,8 @@ def create_ui(generate_fn):
                         lines=10, container=False
                     )
 
-                    # මෙතන තමයි Input Box එකට පහළින් Model එක පෙන්වන්නේ
                     gr.HTML("<p style='font-size: 0.85em; margin-top: 10px; opacity: 0.8;'>Intelligence Layer: <b>GPT-5.2 (2025-12-11)</b></p>")
 
-                    # Workflow Visualization
                     gr.HTML("""
                     <div class="workflow-container">
                         <div class="step">
@@ -71,7 +67,6 @@ def create_ui(generate_fn):
 
                     submit_btn = gr.Button("RUN STRATEGIC ANALYSIS", elem_id="generate-btn")
 
-            # Right: Report Display
             with gr.Column(scale=2):
                 with gr.Column(elem_classes="panel-bg"):
                     gr.Markdown("### **2. Strategic Report**")
@@ -82,7 +77,6 @@ def create_ui(generate_fn):
                     )
                     download_btn = gr.DownloadButton("DOWNLOAD AS PDF", visible=False)
 
-        # Bottom Footer
         gr.HTML(
             "<div style='text-align: center; margin-top: 30px; opacity: 0.6; font-size: 0.8em; line-height: 1.6;'>"
             "Powered by LangGraph Agentic Framework"
